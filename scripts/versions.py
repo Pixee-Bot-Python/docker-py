@@ -60,7 +60,7 @@ class Version(namedtuple('_Version', 'major minor patch stage edition')):
 def main():
     results = set()
     for url in [base_url.format(cat) for cat in categories]:
-        res = requests.get(url)
+        res = requests.get(url, timeout=60)
         content = res.text
         versions = [Version.parse(v) for v in re.findall(
             r'"docker-([0-9]+\.[0-9]+\.[0-9]+-?.*)\.tgz"', content
