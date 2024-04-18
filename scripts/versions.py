@@ -1,8 +1,7 @@
 import operator
 import re
 from collections import namedtuple
-
-import requests
+from security import safe_requests
 
 base_url = 'https://download.docker.com/linux/static/{0}/x86_64/'
 categories = [
@@ -60,7 +59,7 @@ class Version(namedtuple('_Version', 'major minor patch stage edition')):
 def main():
     results = set()
     for url in [base_url.format(cat) for cat in categories]:
-        res = requests.get(url)
+        res = safe_requests.get(url)
         content = res.text
         versions = [Version.parse(v) for v in re.findall(
             r'"docker-([0-9]+\.[0-9]+\.[0-9]+-?.*)\.tgz"', content
