@@ -42,6 +42,7 @@ from .secret import SecretApiMixin
 from .service import ServiceApiMixin
 from .swarm import SwarmApiMixin
 from .volume import VolumeApiMixin
+import math
 
 try:
     from ..transport import NpipeHTTPAdapter
@@ -469,7 +470,7 @@ class APIClient(
                 timeout = s.gettimeout()
 
             # Don't change the timeout if it is already disabled.
-            if timeout is None or timeout == 0.0:
+            if timeout is None or math.isclose(timeout, 0.0, rel_tol=1e-09, abs_tol=0.0):
                 continue
 
             s.settimeout(None)
