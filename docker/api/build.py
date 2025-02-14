@@ -1,9 +1,9 @@
 import json
 import logging
 import os
-import random
 
 from .. import auth, constants, errors, utils
+import secrets
 
 log = logging.getLogger(__name__)
 
@@ -369,7 +369,7 @@ def process_dockerfile(dockerfile, path):
         # Dockerfile not in context - read data to insert into tar later
         with open(abs_dockerfile) as df:
             return (
-                f'.dockerfile.{random.getrandbits(160):x}',
+                f'.dockerfile.{secrets.SystemRandom().getrandbits(160):x}',
                 df.read()
             )
 
