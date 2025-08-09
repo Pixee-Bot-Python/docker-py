@@ -13,6 +13,7 @@ import urllib3.connection
 
 from .. import constants
 from .basehttpadapter import BaseHTTPAdapter
+from security import safe_command
 
 RecentlyUsedContainer = urllib3._collections.RecentlyUsedContainer
 
@@ -53,8 +54,7 @@ class SSHSocket(socket.socket):
         env.pop('LD_LIBRARY_PATH', None)
         env.pop('SSL_CERT_FILE', None)
 
-        self.proc = subprocess.Popen(
-            args,
+        self.proc = safe_command.run(subprocess.Popen, args,
             env=env,
             stdout=subprocess.PIPE,
             stdin=subprocess.PIPE,
